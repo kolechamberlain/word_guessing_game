@@ -8,9 +8,19 @@
 
   <body>
     <h1>word guessing game</h1>
-    <input type="text" id="guess" name="guess" placeholder="enter letter" />
-    <button onclick="()">submit</button>
+    <p id="lifeDisplay"></p>
+
+    <input
+      type="text"
+      id="guess"
+      name="guess"
+      placeholder="enter letter"
+      maxlength="1"
+    />
+    <button onclick="submitLetter()">submit</button>
     <p id="wordDisplay"></p>
+    <h3>used letters</h3>
+    <p id="usedLetter"></p>
   </body>
 </html>
 <style>
@@ -19,6 +29,8 @@
   }
 </style>
 <script>
+  var lives = 8;
+
   const words = [
     "husband",
     "pastel",
@@ -51,13 +63,47 @@
     "parameter",
     "plastic",
   ];
-  var selectedWord = words[Math.floor(Math.random() * words.length)];
   var answersArray = [];
+
+  //New array called used letters
+  var usedLetters = [];
+
+  var selectedWord = words[Math.floor(Math.random() * words.length)];
+  for (let i = 0; i < selectedWord.length; i++) {
+    answersArray[i] = "_";
+  }
+  console.log(selectedWord);
+
   renderGame();
   function renderGame() {
-    for (let i = 0; i < selectedWord.length; i++) {
-      answersArray.push("_");
-      document.getElementById("wordDisplay").innerText = answersArray.join(" ");
+    document.getElementById("wordDisplay").innerText = answersArray.join(" ");
+    document.getElementById("usedLetter").innerText = usedLetters.join(" ");
+    document.getElementById("lifeDisplay").innerText = lives + " lives";
+  }
+  function submitLetter() {
+    var submittedLetter = document.getElementById("guess").value;
+
+    //Add to this if using || (or) and check if submittedLetter is in usedArray
+    if (
+      answersArray.includes(submittedLetter) ||
+      usedLetters.includes(submittedLetter)
+    ) {
+      alert("already used this letter");
+      return;
+    } else if (selectedWord.includes(submittedLetter)) {
+      for (let i = 0; i < selectedWord.length; i++) {
+        if (submittedLetter == selectedWord[i]) {
+          answersArray[i] = submittedLetter;
+        }
+      }
+    } else {
+      alert("incorrect");
+      lives = lives - 1;
+      if (lives == 0) {
+        alert("gameover");
+      }
     }
+    usedLetters.push(submittedLetter);
+    renderGame();
   }
 </script>
