@@ -8,29 +8,42 @@
 
   <body>
     <h1>word guessing game</h1>
-    <p id="lifeDisplay"></p>
 
-    <input
-      type="text"
-      id="guess"
-      name="guess"
-      placeholder="enter letter"
-      maxlength="1"
-    />
-    <button onclick="submitLetter()">submit</button>
-    <p id="wordDisplay"></p>
-    <h3>used letters</h3>
-    <p id="usedLetter"></p>
+    <div id="game">
+      <p id="lifeDisplay"></p>
+
+      <input
+        type="text"
+        id="guess"
+        name="guess"
+        placeholder="enter letter"
+        maxlength="1"
+      />
+      <button onclick="submitLetter()">submit</button>
+      <p id="wordDisplay"></p>
+      <h3>used letters</h3>
+      <p id="usedLetter"></p>
+    </div>
+
+    <div id="losemesage" class="hidden">
+      <button onclick="playagein()">play agein</button>
+      <p>you lose</p>
+    </div>
+    <div id="winmesage" class="hidden">
+      <button onclick="playagein()">play agein</button>
+      <p>you win</p>
+    </div>
   </body>
 </html>
 <style>
   body {
     background-color: cyan;
   }
+  .hidden {
+    display: none;
+  }
 </style>
 <script>
-  var lives = 8;
-
   const words = [
     "husband",
     "pastel",
@@ -63,15 +76,16 @@
     "parameter",
     "plastic",
   ];
+
+  var lives = 8;
   var answersArray = [];
-
-  //New array called used letters
   var usedLetters = [];
-
   var selectedWord = words[Math.floor(Math.random() * words.length)];
   for (let i = 0; i < selectedWord.length; i++) {
     answersArray[i] = "_";
   }
+  var remainingLetters = selectedWord.length;
+
   console.log(selectedWord);
 
   renderGame();
@@ -94,13 +108,24 @@
       for (let i = 0; i < selectedWord.length; i++) {
         if (submittedLetter == selectedWord[i]) {
           answersArray[i] = submittedLetter;
+
+          remainingLetters = remainingLetters - 1;
+          if (remainingLetters == 0) {
+            var element = document.getElementById("game");
+            element.classList.add("hidden");
+            var element = document.getElementById("winmesage");
+            element.classList.remove("hidden");
+          }
         }
       }
     } else {
       alert("incorrect");
       lives = lives - 1;
       if (lives == 0) {
-        alert("gameover");
+        var element = document.getElementById("game");
+        element.classList.add("hidden");
+        var element = document.getElementById("losemesage");
+        element.classList.remove("hidden");
       }
     }
     usedLetters.push(submittedLetter);
