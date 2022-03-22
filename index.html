@@ -7,11 +7,14 @@
   </head>
 
   <body>
-    <h1>word guessing game</h1>
+    <h1>Word Guessing Game</h1>
 
     <div id="game">
-      <p id="lifeDisplay"></p>
-
+      <div class="flex">
+        <p id="lifeDisplay" class="margin"></p>
+        <p id="winDisplay" class="margin"></p>
+        <p id="loseDisplay" class="margin"></p>
+      </div>
       <input
         type="text"
         id="guess"
@@ -19,18 +22,18 @@
         placeholder="enter letter"
         maxlength="1"
       />
-      <button onclick="submitLetter()">submit</button>
+      <button class="button" onclick="submitLetter()">submit</button>
       <p id="wordDisplay"></p>
       <h3>used letters</h3>
       <p id="usedLetter"></p>
     </div>
 
     <div id="losemesage" class="hidden">
-      <button onclick="playagein()">play agein</button>
+      <button class="button" onclick="restartGame()">play agein</button>
       <p>you lose</p>
     </div>
     <div id="winmesage" class="hidden">
-      <button onclick="playagein()">play agein</button>
+      <button class="button" onclick="restartGame()">play agein</button>
       <p>you win</p>
     </div>
   </body>
@@ -41,6 +44,20 @@
   }
   .hidden {
     display: none;
+  }
+  .flex {
+    display: flex;
+  }
+  .margin {
+    margin: 10px;
+  }
+  .button {
+    background-color: crimson;
+    height: 50px;
+    border-radius: 50px;
+  }
+  .button:hover {
+    background-color: rgb(178, 255, 102);
   }
 </style>
 <script>
@@ -75,9 +92,71 @@
     "exaggerate",
     "parameter",
     "plastic",
+    "vague",
+    "neutral",
+    "rumor",
+    "powder",
+    "absence",
+    "bland",
+    "notebook",
+    "spider",
+    "systematic",
+    "chop",
+    "calm",
+    "tell",
+    "stab",
+    "bang",
+    "palm",
+    "category",
+    "sensation",
+    "resource",
+    "limit",
+    "football",
+    "edition",
+    "slot",
+    "detective",
+    "cottage",
+    "face",
+    "turn",
+    "simplicity",
+    "on",
+    "bleed",
+    "prejudice",
+    "eat",
+    "policeman",
+    "minute",
+    "private",
+    "page",
+    "clay",
+    "understand",
+    "plot",
+    "swim",
+    "cute",
+    "debate",
+    "coincide",
+    "episode",
+    "auction",
+    "guess",
+    "unity",
+    "mutual",
+    "rub",
+    "disorder",
+    "jury",
+    "crop",
+    "chip",
+    "giant",
+    "crude",
+    "hike",
+    "trench",
+    "skeleton",
+    "bishop",
+    "form",
+    "fill",
   ];
 
   var lives = 8;
+  var win = 0;
+  var lose = 0;
   var answersArray = [];
   var usedLetters = [];
   var selectedWord = words[Math.floor(Math.random() * words.length)];
@@ -86,18 +165,18 @@
   }
   var remainingLetters = selectedWord.length;
 
-  console.log(selectedWord);
-
   renderGame();
   function renderGame() {
     document.getElementById("wordDisplay").innerText = answersArray.join(" ");
     document.getElementById("usedLetter").innerText = usedLetters.join(" ");
     document.getElementById("lifeDisplay").innerText = lives + " lives";
+    document.getElementById("winDisplay").innerText = win + " win";
+    document.getElementById("loseDisplay").innerText = lose + " lose";
   }
   function submitLetter() {
-    var submittedLetter = document.getElementById("guess").value;
+    var input = document.getElementById("guess");
+    var submittedLetter = input.value;
 
-    //Add to this if using || (or) and check if submittedLetter is in usedArray
     if (
       answersArray.includes(submittedLetter) ||
       usedLetters.includes(submittedLetter)
@@ -115,6 +194,7 @@
             element.classList.add("hidden");
             var element = document.getElementById("winmesage");
             element.classList.remove("hidden");
+            win = win + 1;
           }
         }
       }
@@ -126,9 +206,28 @@
         element.classList.add("hidden");
         var element = document.getElementById("losemesage");
         element.classList.remove("hidden");
+        lose = lose + 1;
       }
     }
     usedLetters.push(submittedLetter);
+    input.value = "";
+    renderGame();
+  }
+
+  function restartGame() {
+    var element = document.getElementById("losemesage");
+    element.classList.add("hidden");
+    var element = document.getElementById("winmesage");
+    element.classList.add("hidden");
+    var element = document.getElementById("game");
+    element.classList.remove("hidden");
+
+    lives = 8;
+    selectedWord = words[Math.floor(Math.random() * words.length)];
+    for (let i = 0; i < selectedWord.length; i++) {
+      answersArray[i] = "_";
+    }
+    usedLetters = [];
     renderGame();
   }
 </script>
