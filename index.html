@@ -1,21 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>word guessing game</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>word guessing game</h1>
-    <input type="text" id="guess" name="guess" placeholder="enter letter">
-    <button  onclick="()">submit</button>
+    <input type="text" id="guess" name="guess" placeholder="enter letter" />
+    <button onclick="()">submit</button>
     <p id="wordDisplay"></p>
-</body>
+  </body>
 </html>
 <style>
-    body {
+  body {
     background-color: cyan;
   }
-
 </style>
+<script>
+  const words = [
+    "husband",
+    "pastel",
+    "original",
+    "calendar",
+    "quarter",
+    "extend",
+    "illusion",
+    "information",
+    "sculpture",
+    "read",
+    "brick",
+    "magnetic",
+    "choice",
+    "hell",
+    "sweater",
+    "find",
+    "parking",
+    "aunt",
+    "doll",
+    "final",
+    "deteriorate",
+    "cruel",
+    "cold",
+    "colorful",
+    "fish",
+    "insure",
+    "midnight",
+    "exaggerate",
+    "parameter",
+    "plastic",
+  ];
+  var selectedWord = words[Math.floor(Math.random() * words.length)];
+  var answersArray = [];
+  renderGame();
+  function renderGame() {
+    for (let i = 0; i < selectedWord.length; i++) {
+      answersArray.push("_");
+      document.getElementById("wordDisplay").innerText = answersArray.join(" ");
+    }
+  }
+</script>
